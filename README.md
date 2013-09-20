@@ -1,5 +1,5 @@
-PrestashopModule
-================
+PackLink Prestashop Module 1.0b
+===============================
 
 Module to manage shipments Packlink
 
@@ -37,4 +37,4 @@ The tutorial is downloaded from <a href="http://api.packlink.com/docs/ManualUsua
 
 Module Download
 =================
-The module source code is downloaded from <a href="http://api.packlink.com/docs/ManualUsuarioPS.pdf" target="_blank">here</a>
+The module source code is downloaded from <a href="http://api.packlink.com/modules/packlinkPS.pdf" target="_blank">here</a>
