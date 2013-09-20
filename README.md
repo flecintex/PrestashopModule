@@ -1,8 +1,7 @@
 PackLink Prestashop Module 1.0b
 ===============================
 
-Module to manage shipments Packlink
-
+This Module has been created to manage Packlink's shipments. In a begining,  only has been tested from Prestashop 1.5.4 or superior but, in the future, is posible that to be available to all versions.
 
 Features
 ========
