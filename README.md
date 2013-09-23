@@ -25,6 +25,7 @@ Installation
 ============
 
 <p><b>Please, rename the directory name of your file compressed downloaded one time you it unzipped by packlink</b>. For example, if you download PrestashopModule-master, this directory is corresponding with last version, you must rename PrestashopModule-master by packlink just after you extract all files.</p>
+<p>You must be sure that your store has the option of using cāhe disabled and enabled force the compilation before installing the module.</p>
 <p>Once copied to the system, you must login in the Administration Panel of our PrestaShop store and go to the Modules tab, and within the options before us, we click Modules.</p>
 <p>Install the module clicking in install button and once installed give to Configure.</p>
 <p>Once we have clicked on Configure will appear a screen with several tabs that allow PackLink module configuration.</p>
