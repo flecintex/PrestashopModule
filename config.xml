@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <module>
+            <name>packlink</name>
+            <displayName><![CDATA[M&oacute;dulo de PackLink]]></displayName>
+            <version><![CDATA[1.0b]]></version>
+            <description><![CDATA[M&oacute;dulo para buscador de env&iacute;os de paqueter&iacute;a de PackLink.es.&lt;br/&gt;&lt;div&gt;
+        &lt;h4&gt;Ventajas de contratar con PackLink.es&lt;/h4&gt;
+            &lt;ul&gt;
+                    &lt;li&gt;&lt;b&gt;Comparar los precios de las empresas de transporte&lt;/b&gt; m&aacute;s fiables como SEUR, UPS, FedEx, Nacex, MRW, ChronoExpr&eacute;s, Envialia, ASM, MEX, GLS, OCHOA y Tourline.&lt;/li&gt;
+                    &lt;li&gt;Proceso de contrataci&oacute;n &lt;b&gt;sencillo y r&aacute;pido&lt;/b&gt;&lt;/li&gt;
+                    &lt;li&gt;Puede solicitar la &lt;b&gt;recogida para el mismo d&iacute;a&lt;/b&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;b&gt;Cobertura gratuita incluida en el precio&lt;/b&gt; y posibilidad de contratar cobertura adicional&lt;/li&gt;
+                    &lt;li&gt;&lt;b&gt;Seguimiento online&lt;/b&gt; gratuito con actualizaciones regulares, para su tranquilidad&lt;/li&gt;
+                    &lt;li&gt;&lt;b&gt;Pago 100% seguro&lt;/b&gt; a trav&eacute;s de tarjeta o PayPal&lt;/li&gt;
+            &lt;/ul&gt;
+            &lt;br&gt;
+            Todos nuestros servicios tienen importantes descuentos para que realice sus env&iacute;os de paqueter&iacute;a con los precios m&aacute;s baratos del mercado.
+
+            &lt;/div&gt;&lt;br /&gt;Obtenga su presupuesto gratuito al instante y contrate el servicio en 3 sencillos pasos. S&oacute;lo tiene que introducir el peso y las medidas del bulto en el formulario azul &ldquo;Buscar el mejor precio&rdquo; y benef&iacute;ciese de las mejores ofertas para enviar un paquete en la web.
+            &lt;h4&gt;Soporte T&eacute;cnico&lt;/h4&gt;&lt;br/&gt;Puede contactar con nosotros a trav&eacute;s de nuestra Ayuda On-Line o de nuestro Formulario de Contacto pulsando &lt;a style=color:#2698df target=_blank href=http://www.packlink.es/es/contacte/&gt;&lt;strong&gt;aqu&iacute;&lt;/strong&gt;&lt;/a&gt;.]]></description>
+            <author><![CDATA[PackLink (Pablo E. Fern&aacute;ndez Casado)]]></author>
+            <tab><![CDATA[shipping_logistics]]></tab>
+	<confirmUninstall>¿ Estás seguro ?</confirmUninstall>
+            <is_configurable>1</is_configurable>
+            <need_instance>1</need_instance>
+	<limited_countries></limited_countries>
+        </module>

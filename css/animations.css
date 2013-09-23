@@ -1,0 +1,56 @@
+@charset "utf-8";
+/* 
+    Document   : packlink.css
+    Created on : 27-mar-2013
+    Author     : Pablo E. Fernández Casado (Packlink.es)
+    Description:
+    Styles of Packlink Administration module.
+*/
+
+.animation{
+    transition: all .2s ease-in-out; 
+    -webkit-transition: all .2s ease-in-out; 
+    -moz-transition: all .2s ease-in-out; 
+    -o-transition: all .2s ease-in-out; 
+    -ms-transition: all .2s ease-in-out; 
+}
+
+.animation:hover{
+    -ms-transform: scale(0.8);
+    -moz-transform: scale(0.8);
+    -webkit-transform: scale(0.8);
+    -o-transform: scale(0.8);
+    transform: scale(0.8);
+   filter: progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=2, M12=-0, M21=0, M22=2);
+}
+
+div#drag1 td{
+    height: 20px;
+    text-align: center;
+}
+
+/* El objeto arrastable (DIV dentro de la celda de la tabla) */
+.drag{
+    margin: auto;
+    text-align: center;
+    width: 24px;
+    height: 15px;
+    line-height: 15px;
+    border: 2px solid #555;
+    border-color: #F0F0F0 #CCCCCC #CCCCCC #F0F0F0;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    -xv-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+}
+
+/* añadimos aquí el objeto clonado antes de asignarlo a la celda de la tabla de destino */
+#obj_new{
+    height: 12px;
+    width: 30px;
+}

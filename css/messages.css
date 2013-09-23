@@ -1,0 +1,12 @@
+@charset "utf-8";
+/* 
+    Document   : packlink.css
+    Created on : 27-mar-2013
+    Author     : Pablo E. Fernández Casado (Packlink.es)
+    Description:
+    Styles of Packlink Administration module.
+*/
+
+.msgError 	{ font: bold 12px Arial; color:#b52323; float: right; }
+.msgOK 		{ font: bold 12px Arial; color:#418E13; float: right; }
+.textred 	{color: #FF2020 !important; text-shadow: -1px -1px 4px #FFFFFF !important; }

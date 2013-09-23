@@ -1,0 +1,115 @@
+@charset "utf-8";
+/* 
+    Document   : packlink.css
+    Created on : 27-mar-2013
+    Author     : Pablo E. Fernández Casado (Packlink.es)
+    Description:
+    Styles of Packlink Administration module.
+*/
+
+#orders tr.odd.disable{ color: #d0d0d0 !important; }
+#orders tr.even.disable{ color: #f0f0f0 !important; }
+#orders tr.odd.disable:hover{ background-color: #f0f0f0 !important; }
+#orders tr.even.disable:hover{ background-color: #ffffff  !important; }
+
+#orders_length select {
+    left: 10px !important;
+    min-width: 70px !important;
+    position: relative !important;
+    top: -12px !important;
+    width: 70px !important;
+}
+#orders_length label {
+    width: auto !important;
+}
+
+#orders td:nth-child(1) label {
+    /*width: 18px !important;*/
+}
+
+#orders label > span {
+    width: 18px !important;
+}
+
+#orders tr td:first-child.expand{
+    background-image: url(../images/expand.png) !important ;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 18px auto;
+    cursor: pointer;
+    height:24px;
+    display: block;
+}
+
+#orders tr td:first-child.process{
+    background-image: url(../images/process.png) !important ;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 18px auto;
+    cursor: pointer;
+    height:24px;
+    display: block;
+}
+
+#orders tr td:first-child.collapse{
+    background-image: url(../images/collapse.png) !important ;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 18px auto;
+    cursor: pointer;
+    height:24px;
+    display: block;
+} 
+#orders tr td:first-child.loading{
+    background-image: url(../images/loading.gif) !important ;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 18px auto;
+    height:24px;
+    display: block;
+} 
+
+#orders table tr td { padding: 3px !important; width: 50%; }
+
+.selectedColumn {
+    background: rgb(20,24,27);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzQ1NDg0ZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, rgba(20,24,27,1) 0%, rgba(0,0,0,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(20,24,27,1)), color-stop(100%,rgba(0,0,0,1))); 
+    background: -webkit-linear-gradient(top, rgba(20,24,27,1) 0%,rgba(0,0,0,1) 100%); 
+    background: -o-linear-gradient(top, rgba(20,24,27,1) 0%,rgba(0,0,0,1) 100%); 
+    background: -ms-linear-gradient(top, rgba(20,24,27,1) 0%,rgba(0,0,0,1) 100%); 
+    background: linear-gradient(to bottom, rgba(20,24,27,1) 0%,rgba(0,0,0,1) 100%); 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#14181b', endColorstr='#000000',GradientType=0 ); 
+    color: white !important;
+}
+
+
+.package { width: 134px; background:url("../images/package.png") no-repeat scroll 0 0 / 100% 100% transparent; width:220px; height:320px }
+.package div { font-weight: bold; height: 140px !important; left: 11px; margin-bottom: 6px; position: relative; top: 82px; width: 194px !important; min-width: 194px !important; overflow: auto; background: none repeat scroll 0 0 rgba(255, 255, 255, 0.7); border: 1px solid #9D763E; color: #000000; }
+.package div table { width: 100%}
+.package div table tr td:nth-child(1) { width: calc(100% - 15px) !important; min-width: calc(100% - 15px) !important; }
+.package div table tr td:nth-child(2) { width: 15px !important; min-width: 15px !important; text-align: center; }
+.package div table tr td.delete { cursor:pointer; width: 16px !important; min-width: 16px !important; background:url(../images/delete.png) no-repeat scroll 5px 5px transparent; }
+.package label { color: white; float: left; left: 14px; margin: -2px 0 8px !important; min-width: 120px !important; position: relative; text-align: left; text-shadow: none; top: 82px; width: 120px !important; }
+.package input { color: #000000; background: none repeat scroll 0 0 rgba(255,255,255,0.7) !important; border:1px solid #9d763e !important; border-radius: 0 0 0 0 !important; font-size: 12px !important; font-weight: bold; height: 12px; left: -13px !important; margin: 4px 0 0 !important; min-width: 50px !important; padding: 3px !important; position: relative; top: 74px !important; width: 55px !important; text-shadow: none; text-align: right; }
+.package .view { position: absolute; font-style: italic; font-weight: bold; background: url(../images/view.png) no-repeat scroll center center transparent; display: inline-block; width: 24px; height: 24px; right: 8px; top: 71px; cursor: pointer; display: none }
+
+.package div.waitingCBOX {display: none; background: url(../images/loading.gif) no-repeat center center transparent ; border: 0 none; height: 100%; left: 0; min-width: 80px; position: absolute; top: 0; width: 100%; }
+
+.packageDown td:first-child { background: url(../images/box-down.png) no-repeat scroll 8px 2px ; width: 22px !important; cursor:pointer; }
+.packageUp td:first-child { background: url(../images/box-up.png) no-repeat scroll 8px 2px ; width: 22px !important; cursor:pointer; }
+.buttonPackageAdd { margin-left: 8px; position: relative; top: 4px; float: right; padding:0 !important; display:block; height:32px; background: url("../images/box-add.png") no-repeat scroll 4px 2px transparent !important; width: 32px !important; min-width: 32px !important; border-color:#f0f0f0 #d0d0d0 #d0d0d0 #f0f0f0 !important; }
+.buttonPackageDel { margin-left: 8px; position: relative; top: 4px; float: right; padding:0 !important; display:block; height:32px; background: url("../images/box-delete.png") no-repeat scroll 4px 2px transparent !important; width: 32px !important; min-width: 32px !important; border-color:#f0f0f0 #d0d0d0 #d0d0d0 #f0f0f0 !important; }
+
+.options .gathered_date { float: left !important; min-width: 70px !important; text-align: center; width: 70px !important; font-size: 12px !important;}
+
+.options .ui-datepicker-trigger {
+    float: right !important;
+    position: relative !important;;
+    top: 5px !important;;
+    
+}
+.gathered_date.hasDatepicker {
+    margin: 0 !important;
+}

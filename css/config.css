@@ -1,0 +1,339 @@
+@charset "utf-8";
+/* 
+    Document   : packlink.css
+    Created on : 27-mar-2013
+    Author     : Pablo E. Fernández Casado (Packlink.es)
+    Description:
+    Styles of Packlink Administration module.
+*/
+
+#packlink_frm .border			{ height: 170px; width: 320px; }
+#packlink_frm .packlink			{ padding: 10px 12px 12px 10px; }
+#packlink_frm .border			{ padding: 1px; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
+#packlink_frm .border.unfocus	{ background: #333 !important; }
+
+#packlink_frm{
+    border-radius: 5px;
+    height: 100%;
+    width: 95%;
+    margin:0 auto;
+}
+
+#packlink_frm h2{
+	text-align:center;
+	color:#ffffff;
+        background: transparent;
+}
+
+#packlink_frm fieldset{
+    background: rgb(255,255,255); /* Old browsers */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlZGY4ZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(237,248,255,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(237,248,255,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(237,248,255,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(237,248,255,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(237,248,255,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(237,248,255,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#edf8ff',GradientType=0 ); /* IE6-8 */
+    margin:5px 0;
+    border:1px solid #c2c4c6;
+    border-radius:5px;
+    -moz-border-radius:5px;
+    -ms-border-radius:5px;
+    -o-border-radius:5px;
+    -khtml-border-radius:5px;
+    -webkit-border-radius:5px;
+    -xv-border-radius:5px;
+}
+
+#packlink_frm fieldset legend{
+    background: #000;
+    color:white;
+    font-weight:bold;
+    border:2px solid #e0e0e0;
+    border-radius:5px;
+    -moz-border-radius:5px;
+    -ms-border-radius:5px;
+    -o-border-radius:5px;
+    -khtml-border-radius:5px;
+    -webkit-border-radius:5px;
+    -xv-border-radius:5px;
+}
+
+#packlink_frm input, #packlink_frm select, #packlink_frm textarea{
+    display: inline-block;
+    margin: 5px 10px 10px 0px;
+    float: right;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    padding: 5px;
+    color: black;
+    font-size: 12px;
+    border-radius:5px;
+    -moz-border-radius:5px;
+    -ms-border-radius:5px;
+    -o-border-radius:5px;
+    -khtml-border-radius:5px;
+    -webkit-border-radius:5px;
+    -xv-border-radius:5px;
+    -moz-box-shadow: none;
+    -ms-box-shadow: none;
+    -o-box-shadow: none;
+    -khtml-box-shadow: none;
+    -webkit-box-shadow: none;
+    -xv-box-shadow: none;
+    box-shadow: none;
+}
+
+
+#packlink_frm select{
+    width: 88.7%;
+    padding: 4px 4px 5px 2px;
+    height:28px;
+}
+
+#packlink_frm  input:focus{
+	color: #000;
+}
+
+#packlink_frm fieldset { font-size: inherit; }
+
+#packlink_frm div.options {
+    width:260px !important;
+}
+#packlink_frm div.options input[type="button"] {
+    font: bold 12px/100% Arial,Helvetica,sans-serif;
+}
+#packlink_frm div.options .request {
+    clear:both;
+    width: 100% !important;
+    margin: 5px 0 10px;
+}
+#packlink_frm div.options .accept {
+    margin:2px 3px !important;
+    width: 98% !important;
+}
+#packlink_frm div.options select {
+    width:115px !important;
+    min-width:115px !important;
+    font-size: 14px;
+}
+#packlink_frm div.options span {
+    display: inline-block;
+    width:99%;
+    margin-top: 0px;
+    border:1px solid #e0e0e0;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -xv-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    background: none repeat scroll 0 0 #F0F0F0;
+}
+#packlink_frm div.options span table {
+    width:100%;
+    position: relative;
+    top: 2px;
+}
+#packlink_frm div.options span table tr td:nth-child(2), #packlink_frm div.options fieldset table tr td:nth-child(2) {
+    text-align: right;
+    font-weight: bold;
+}
+
+#packlink_frm div.package span.measurements-box{
+    background-color: rgba(255, 255, 255, 0.5);
+    clear: none;
+    color: black;
+    float: left;
+    font-weight: bold;
+    left: 5px;
+    position: relative;
+    text-align: center;
+    top: 35px;
+    width: 210px;
+    font-style: italic;
+    padding: 2px;
+    height:15px;
+}
+
+#packlink_frm option, #packlink_frm .state {
+    background-position: 5px 5px;
+    background-repeat: no-repeat;
+    background-size: 6% auto;
+    padding: 2px 3px 2px 22px;
+    font-size: inherit;
+    min-width: auto;
+    width: auto;
+    margin:0;
+    height: 24px !important;
+}
+#packlink_frm div.options .state { padding-right: 3px; width: 125px !important; }
+
+#packlink_frm option.blue,   #packlink_frm .state.blue   { color:#3a7bb4; background-image: url("../images/state_blue.png"); }
+#packlink_frm option.brown,  #packlink_frm .state.brown  { color:#c37b4f; background-image: url("../images/state_brown.png"); }
+#packlink_frm option.green,  #packlink_frm .state.green  { color:#92b64e; background-image: url("../images/state_green.png"); }
+#packlink_frm option.red,    #packlink_frm .state.red    { color:#e24a47; background-image: url("../images/state_red.png"); }
+#packlink_frm option.violet, #packlink_frm .state.violet { color:#8256b8; background-image: url("../images/state_violet.png"); }
+
+
+#sectionsPackLink span{ }
+
+#sectionsPackLink span {
+    background: none repeat scroll 0 0 #388FE5;
+    border-radius: 5px 5px 0 0;
+    color: white;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 40px;
+    text-align: center;
+    text-transform: uppercase;
+    border:1px solid #287fb5;
+    margin: 0 !important;
+    padding: 0 10px !important;
+}
+
+#sectionsPackLink span:hover {
+    cursor: pointer;
+    background: none repeat scroll 0 0 #085Fb5;
+}
+
+#sectionsPackLink span.selected{
+    background: none repeat scroll 0 0 #fff;
+    color: black;
+    border:1px solid #f4f6f8;
+    border-bottom: none;
+    cursor:default;
+    position: relative;
+    top:2px;
+}
+
+#contentSectionsPackLink {
+    width: 100%;
+    border:1px solid #f4f6f8;
+    padding: 0 0.5%;
+}
+
+#contentSectionsPackLink span{
+    display: inline-block;
+    width: 100%;
+}
+
+#contentSectionsPackLink .labelSection{
+    width: 150px;
+    min-width: 150px;
+    position: relative;
+    top:10px;
+    margin-bottom: 10px;
+}
+
+#contentSectionsPackLink fieldset { color: #000; }
+#contentSectionsPackLink input[type="checkbox"] {
+    display:none !important;
+}
+
+#contentSectionsPackLink input[type="checkbox"] + label {
+    color:#000000;
+    font-family:Arial, sans-serif;
+    font-size:12px;
+	padding-right:15px;
+	display:inline-block;
+}
+
+#contentSectionsPackLink input[type="checkbox"] + label > span {
+    display:inline-block;
+    width:19px;
+    height:19px;
+    margin:-1px 4px 0 0;
+    vertical-align:middle;
+    background:url(../images/check_radio_sheet-2.png) left top no-repeat;
+    cursor:pointer;
+}
+
+#contentSectionsPackLink input[type="checkbox"]:checked + label > span {
+    background:url(../images/check_radio_sheet-2.png) -19px top no-repeat;
+}
+
+#contentSectionsPackLink input[type="radio"] {
+    display:none !important;
+}
+
+#contentSectionsPackLink input[type="radio"] + label {
+    color:#000000;
+    font-family:Arial, sans-serif;
+    font-size:14px;
+}
+
+#contentSectionsPackLink input[type="radio"] + label > span {
+    display:inline-block;
+    width:19px !important;
+    height:19px !important;
+    margin:-1px 4px 0 0;
+    vertical-align:middle;
+    background:url(../images/check_radio_sheet-2.png) -38px top no-repeat;
+    cursor:pointer;
+}
+
+#contentSectionsPackLink input[type="radio"]:checked + label > span {
+    background:url(../images/check_radio_sheet-2.png) -57px top no-repeat;
+}
+
+/***************************************************************************************************************************************
+ SERVICE'S LIST
+ ***************************************************************************************************************************************/
+ 
+#services td:nth-child(1) label {
+    width: 18px !important;
+}
+
+#services label > span {
+    width: 18px !important;
+}
+
+#services tr.odd.disable{ color: #585A69 !important; }
+#services tr.even.disable{ color: #585A69 !important; }
+#services tr.odd.disable:hover{ background-color: #f0f0f0 !important; }
+#services tr.even.disable:hover{ background-color: #ffffff  !important; }
+#services th:last-child { padding: 0; text-align: center; }
+
+#services_length select {
+    left: 10px !important;
+    min-width: 70px !important;
+    position: relative !important;
+    top: -12px !important;
+    width: 70px !important;
+}
+#services_length label {
+    width: auto !important;
+}
+
+#services input.transitMargin { text-align:right; margin: 0; min-width: auto; padding: 2px; width: 50px; font-size: 12px; }
+
+span.step-up, span.step-down {
+    background: url(../images/down.png) no-repeat center center transparent;
+    float: left;
+    height: 12px;
+    left: 190px;
+    margin: 0 auto;
+    position: absolute;
+    text-align: center;
+    top: 24px;
+    width: 24px;
+    cursor: pointer;
+}
+span.step-up{
+    background: url(../images/up.png) no-repeat center center transparent;
+    top: 6px;
+}
+
+#contentSectionsPackLink fieldset input[type="reset"].new{
+    clear: none;
+    float: right;
+    min-width: auto;
+    width: auto;
+}
+
+.submitButton {min-width: auto !important; }
