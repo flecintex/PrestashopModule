@@ -50,18 +50,18 @@
         $_OVERRIDE_CLS_CTRL   = $_OVERRIDE_CLS.'controller'.$separator;
         $_OVERRIDE_CTRL_FRNT  = str_replace($_DIR_BASE, "", $_PS_OVERRIDE_DIR).'controllers'.$separator.'front'.$separator;
         $_PACKLINK_CARRIER_ID = 0;
-                 
+
         // ---------------------------------------------------------------------
         // Insert new Carrier named Packlink.
         // ---------------------------------------------------------------------
 
-        $aux = Db::getInstance()->executeS("SELECT MAX(id_carrier) AS 'id_carrier' FROM `"._DB_PREFIX_."carrier` WHERE UCASE(name) LIKE '%PACKLINK%' AND `deleted` = 0", false);
+        $aux = Db::getInstance()->executeS("SELECT MAX(id_carrier) AS 'id_carrier' FROM `"._DB_PREFIX_."carrier` WHERE UCASE(name) LIKE '%PACKLINK%' AND `deleted` = 0");
         if(count($aux) != 0 && count($aux[0]) != 0) $_PACKLINK_CARRIER_ID = $aux[0]['id_carrier']; else $_PACKLINK_CARRIER_ID = 0;
-        
+
         if($_PACKLINK_CARRIER_ID != 0){
             // Delete all carriers less the highest value. After, will update all previous installs.
             
-            if ($records = Db::getInstance()->ExecuteS("SELECT DISTINCT id_carrier AS 'id' FROM `"._DB_PREFIX_."carrier` WHERE UCASE(name) LIKE '%PACKLINK%'")){
+            if ($records = Db::getInstance()->executeS("SELECT DISTINCT id_carrier AS 'id' FROM `"._DB_PREFIX_."carrier` WHERE UCASE(name) LIKE '%PACKLINK%'")){
                 foreach ($records as $record){
                     if($record['id'] != $_PACKLINK_CARRIER_ID){
                         if (!Db::getInstance()->execute("UPDATE `"._DB_PREFIX_."packlink_orders` SET id_carrier = ".$_PACKLINK_CARRIER_ID." WHERE id_carrier = '".$record['id']."';")) return false;
@@ -85,16 +85,16 @@
             }
         } else {
             // To do Regular Install
-            
+
             if (!Db::getInstance()->execute("INSERT INTO `"._DB_PREFIX_."carrier` (`id_reference`, `id_tax_rules_group`, `name`, `url`, `active`, `deleted`, `shipping_handling`, `range_behavior`, `is_module`, `is_free`, `shipping_external`, `need_range`, `external_module_name`, `shipping_method`, `position`, `max_width`, `max_height`, `max_depth`, `max_weight`, `grade`) VALUES (0, 0, 'Packlink', '', 1, 0, 1, 0, 0, 0, 0, 0, '', 2, 2, 0, 0, 0, 0, 0);")) return false;
             $_PACKLINK_CARRIER_ID = Db::getInstance()->executeS("SELECT id_carrier FROM `"._DB_PREFIX_."carrier` WHERE UCASE(name) LIKE '%PACKLINK%';");
             $_PACKLINK_CARRIER_ID = $_PACKLINK_CARRIER_ID[0]['id_carrier'];
 
             // Refill languages
 
-            if ($shops = Db::getInstance()->ExecuteS("SELECT DISTINCT id_shop AS 'id' FROM `"._DB_PREFIX_.'shop` WHERE 1')){
+            if ($shops = Db::getInstance()->executeS("SELECT DISTINCT id_shop AS 'id' FROM `"._DB_PREFIX_.'shop` WHERE 1')){
                 foreach ($shops as $shop){
-                    if ($langs = Db::getInstance()->ExecuteS("SELECT DISTINCT id_lang AS 'id', iso_code FROM `"._DB_PREFIX_.'lang` WHERE 1')){
+                    if ($langs = Db::getInstance()->executeS("SELECT DISTINCT id_lang AS 'id', iso_code FROM `"._DB_PREFIX_.'lang` WHERE 1')){
                         foreach ($langs as $lang){
                             if($lang['iso_code'] == "es") $message = "Máximo 7 días hábiles";
                             elseif($lang['iso_code'] == "de") $message = "Maximum von 7 Werktagen";
@@ -113,7 +113,7 @@
 
             // Refill zones
 
-            if ($zones_ps = Db::getInstance()->ExecuteS("SELECT DISTINCT id_zone AS 'id' FROM `"._DB_PREFIX_.'zone` WHERE 1')){
+            if ($zones_ps = Db::getInstance()->executeS("SELECT DISTINCT id_zone AS 'id' FROM `"._DB_PREFIX_.'zone` WHERE 1')){
                 foreach ($zones_ps as $zone_ps){
                     if (!Db::getInstance()->execute("INSERT INTO `"._DB_PREFIX_."carrier_zone` (`id_carrier`, `id_zone`) VALUES (".$_PACKLINK_CARRIER_ID.", ".$zone_ps['id'].");")) return false;
                 }
@@ -121,7 +121,7 @@
 
             // Refill groups
 
-            if ($groups_ps = Db::getInstance()->ExecuteS("SELECT DISTINCT id_group AS 'id' FROM `"._DB_PREFIX_.'group` WHERE 1')){
+            if ($groups_ps = Db::getInstance()->executeS("SELECT DISTINCT id_group AS 'id' FROM `"._DB_PREFIX_.'group` WHERE 1')){
                 foreach ($groups_ps as $group_ps){
                     if (!Db::getInstance()->execute("INSERT INTO `"._DB_PREFIX_."carrier_group` (`id_carrier`, `id_group`) VALUES (".$_PACKLINK_CARRIER_ID.", ".$group_ps['id'].");")) return false;
                 }
@@ -213,7 +213,7 @@
         // ---------------------------------------------------------------------
        
         $queryTaxCarrier  = "";
-        if ($langs = Db::getInstance()->ExecuteS("SELECT DISTINCT id_lang AS 'id', iso_code FROM `"._DB_PREFIX_.'lang` WHERE 1')){
+        if ($langs = Db::getInstance()->executeS("SELECT DISTINCT id_lang AS 'id', iso_code FROM `"._DB_PREFIX_.'lang` WHERE 1')){
             foreach ($langs as $lang){
                 if (!Db::getInstance()->execute("DELETE FROM `"._DB_PREFIX_."delivery` WHERE id_carrier = '".$_PACKLINK_CARRIER_ID."';")) return false;
                 if (!Db::getInstance()->execute("INSERT INTO `"._DB_PREFIX_."delivery` (`id_shop`, `id_shop_group`, `id_carrier`, `id_range_price`, `id_range_weight`, `id_zone`, `price`) VALUES (1, 1, '".$_PACKLINK_CARRIER_ID."', '".$_PACKLINK_RANGE_PRICE."', '".$_PACKLINK_RANGE_WEIGHT."', '".$lang['id']."', '0.000000');")) return false;
@@ -224,7 +224,7 @@
         // Update all the products to can to be shipped by Packlink service.
         // ---------------------------------------------------------------------
        
-        $aux = Db::getInstance()->executeS("SHOW TABLES LIKE  '"._DB_PREFIX_."product_carrier_no_pl'", false);
+        $aux = Db::getInstance()->executeS("SHOW TABLES LIKE  '"._DB_PREFIX_."product_carrier_no_pl'");
         if(count($aux) != 0 && count($aux[0]) != 0){
             // Not to do anything
         } else {
@@ -235,9 +235,9 @@
             if (!Db::getInstance()->execute("DELETE FROM `"._DB_PREFIX_."product_carrier` WHERE 1;")) return false;
 
             $queries = array();
-            if ($products = Db::getInstance()->ExecuteS("SELECT DISTINCT id_product AS 'id' FROM `"._DB_PREFIX_.'product` WHERE 1')){
+            if ($products = Db::getInstance()->executeS("SELECT DISTINCT id_product AS 'id' FROM `"._DB_PREFIX_.'product` WHERE 1')){
                 foreach ($products as $product){
-                    if ($shops = Db::getInstance()->ExecuteS("SELECT DISTINCT id_shop AS 'id' FROM `"._DB_PREFIX_.'shop` WHERE 1')){
+                    if ($shops = Db::getInstance()->executeS("SELECT DISTINCT id_shop AS 'id' FROM `"._DB_PREFIX_.'shop` WHERE 1')){
                         foreach ($shops as $shop){
                             if (!Db::getInstance()->execute("INSERT INTO `"._DB_PREFIX_."product_carrier` (`id_product`, `id_carrier_reference`, `id_shop`) VALUES (".$product["id"].", ".$_PACKLINK_CARRIER_ID.", ".$shop['id'].");")) return false;
                         }

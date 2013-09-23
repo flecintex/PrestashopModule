@@ -133,15 +133,16 @@ class packlink extends Module {
 	public function install(){
                 include(dirname(__FILE__).'/install.php');
 		
-		return (
-                    parent::install()     
-                    && $this->registerHook('processCarrier') 
-                    && $this->registerHook('updateCarrier')
-                    && $this->registerHook('adminOrder')
-                    && $this->registerHook('rightColumn')
-                    && $this->installModuleTab('Admin'.$this->module_name, $this->module_name, Db::getInstance()->getValue('SELECT id_tab FROM `'._DB_PREFIX_.'tab` WHERE `class_name`="AdminParentOrders";'))
-                    && Db::getInstance()->execute("UPDATE "._DB_PREFIX_."tab_lang SET `name` = '".ucwords($this->module_name)."' WHERE `name` = '".$this->module_name."'")
-                );
+		if(!parent::install()     
+                    || !$this->registerHook('processCarrier') 
+                    || !$this->registerHook('updateCarrier')
+                    || !$this->registerHook('adminOrder')
+                    || !$this->registerHook('rightColumn')
+                    || !$this->installModuleTab('Admin'.$this->module_name, $this->module_name, Db::getInstance()->getValue('SELECT id_tab FROM `'._DB_PREFIX_.'tab` WHERE `class_name`="AdminParentOrders";'))
+                    | !Db::getInstance()->execute("UPDATE "._DB_PREFIX_."tab_lang SET `name` = '".ucwords($this->module_name)."' WHERE `name` = '".$this->module_name."'")
+                ) return false;
+                
+                return true;
 	}
         
 	public function uninstall(){
@@ -452,7 +453,7 @@ class packlink extends Module {
 		$tab->class_name = $tabClass;
 		$tab->module = $this->name;
 		$tab->id_parent = $idTabParent;
-		echo $tab->name." ".$tab->class_name." ".$this->name." ".$tab->id_parent;
+
                 if(!$tab->save()) return false;
 		
 		return true;

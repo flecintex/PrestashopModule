@@ -37,7 +37,7 @@
 	// ---------------------------------------------------------------------
 	// Delete Carrier
         // ---------------------------------------------------------------------
-        /*
+        
          if ($records = Db::getInstance()->ExecuteS("SELECT DISTINCT id_carrier AS 'id' FROM `"._DB_PREFIX_."carrier` WHERE UCASE(name) LIKE '%PACKLINK%'")){
             foreach ($records as $record){
                 if (!Db::getInstance()->execute("DELETE FROM `"._DB_PREFIX_."carrier` WHERE id_carrier = '".$record['id']."';")) return false;
@@ -66,7 +66,7 @@
                 if (!Db::getInstance()->execute("DELETE FROM `"._DB_PREFIX_."delivery` WHERE id_carrier = '".$record['id']."';")) return false;
             }
          }
-        */
+        
         // ---------------------------------------------------------------------
         // Update all the products to can to be shipped by Packlink service.
         // ---------------------------------------------------------------------
@@ -78,12 +78,12 @@
 	// Drop tables
         // ---------------------------------------------------------------------
         
-        /*
+        
         if (!Db::getInstance()->execute("DROP TABLE  `"._DB_PREFIX_."packlink_boxes`;")) return false;
         if (!Db::getInstance()->execute("DROP TABLE  `"._DB_PREFIX_."packlink_config`;")) return false;
         if (!Db::getInstance()->execute("DROP TABLE  `"._DB_PREFIX_."packlink_services`;")) return false;
         if (!Db::getInstance()->execute("DROP TABLE  `"._DB_PREFIX_."packlink_status`;")) return false;
-         */
+        
         
         // ---------------------------------------------------------------------
 	// Update Configuration variables.
