@@ -142,7 +142,16 @@ $_MODULE['<{packlink}prestashop>packlink_'.md5('Canceled Orders')] = "Storniert 
 $_MODULE['<{packlink}prestashop>packlink_'.md5('Faulted Orders')] = 'fehlerhaften Bestellungen';
 $_MODULE['<{packlink}prestashop>packlink_'.md5('Margin|adjust')] = "Marge";
 $_MODULE['<{packlink}prestashop>packlink_'.md5('Free Shipment From|adjust')] = 'Versand ab';
-$_MODULE['<{packlink}prestashop>packlink_'.md5('Reference')] = 'Reference';
+
+$_MODULE['<{packlink}prestashop>packlink_'.md5('Reference')]         = 'Referenz';
+$_MODULE['<{packlink}prestashop>packlink_'.md5('Origin')]            = 'Ursprungs';
+$_MODULE['<{packlink}prestashop>packlink_'.md5('Destination')]       = 'Zielort';
+$_MODULE['<{packlink}prestashop>packlink_'.md5('Carrier')]           = 'Träger';
+$_MODULE['<{packlink}prestashop>packlink_'.md5('Status')]            = 'Status';
+$_MODULE['<{packlink}prestashop>packlink_'.md5('Date')]              = 'Datum';
+$_MODULE['<{packlink}prestashop>packlink_'.md5('Time')]              = 'Zeit';
+$_MODULE['<{packlink}prestashop>packlink_'.md5('Message')]           = 'Mitteilung';
+$_MODULE['<{packlink}prestashop>packlink_'.md5('Shipment tracking')] = 'Sendungsverfolgung';
 
 $_MODULE['<{packlink}prestashop>packlink_c03c623303e0e96109daacdf20ff5bd4'] = 'Bitte warten...';
 $_MODULE['<{packlink}prestashop>packlink_eeddacf3b07f3912ec3afd84e26fe172'] = '_MENU_ Einträge anzeigen';

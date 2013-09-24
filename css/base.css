@@ -105,3 +105,18 @@ div.scrollWrapper { overflow:scroll; width:300px; height:320px; padding:0; margi
 #frm, #frm2 { margin: 0; padding: 0; }
 
 .adjust input { margin: 0 auto !important; padding-left: 0 !important; padding-right: 0 !important; width: 100% !important; }
+
+/* ************************ */
+/* SHIPPING TRACKING STYLES */
+/* ************************ */
+
+#shipping_tracking > tbody > tr:nth-child(2n+1) { background: #ffffff; }
+#shipping_tracking > tbody > tr:nth-child(2n)   { background: #ffffff; }
+
+#shipping_tracking th, #shipping_tracking td { vertical-align:top; }
+#shipping_tracking th { font-weight:bold; padding: 3px 10px 0 0; color: #2E99E7 } 
+#shipping_tracking td { vertical-align:top; text-align:left; padding: 3px; font-weight: bold; }
+#shipping_tracking > tbody > tr >* td { font-weight: normal;}
+
+#shipping_tracking_img { float: right; padding: 8px 0; width:40%; }
+#shipping_tracking_h1 { float: left; font-size: 16px; line-height: 22px; margin: 20px 0; width: 60%; color: #FFA541; text-shadow: 1px 1px 1px #CD5C13, 1px 1px 1px #000000; }
