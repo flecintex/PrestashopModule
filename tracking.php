@@ -1,51 +1,61 @@
 <?php
-global $smarty;
-include('../../config/config.inc.php');
-include('../../header.php');
+    ini_set("display_errors", "on");
+    error_reporting(E_ERROR^E_PARSE^E_STRICT);
+    global $smarty;
+    global $cookie;
+    include('../../config/config.inc.php');
+    include('../../header.php');
+    include_once 'packlink.php';
+    
+    // Init the Packlink module.
+    $pack = new packlink();
 
-$url = 'http://www.packlink.es/es/seguimiento-envios/';
-$fields = array('num'=>urlencode($_POST['num']));
+    // -------------------------
+    // Get data to Conection
+    // -------------------------
+    
+    $id_lang = $cookie->id_lang;
+    $url_packlink        = Db::getInstance()->getValue("SELECT value FROM "._DB_PREFIX_."packlink_config WHERE `key` = 'url_packlink'");
+    $username            = Db::getInstance()->getValue("SELECT value FROM "._DB_PREFIX_."packlink_config WHERE `key` = 'username'");
+    $password            = Db::getInstance()->getValue("SELECT value FROM "._DB_PREFIX_."packlink_config WHERE `key` = 'password'");
+    $apikey              = Db::getInstance()->getValue("SELECT value FROM "._DB_PREFIX_."packlink_config WHERE `key` = 'apikey'");
+    
+    // -------------------------
+    // WS Connection Client
+    // -------------------------
+    
+    $options  = array('trace' => true, 'exceptions' => true, 'cache_wsdl' => WSDL_CACHE_NONE, 'features' => SOAP_SINGLE_ELEMENT_ARRAYS +  SOAP_USE_XSI_ARRAY_TYPE, 'login' => $apikey, 'password' =>$password, 'soap_version'   => SOAP_1_2, "use"      => SOAP_ENCODED, "style"    => SOAP_DOCUMENT);
+    $client   = new SoapClient($url_packlink."/wsdl", $options );
+    $iso_lang =  Db::getInstance()->getValue("SELECT iso_code FROM "._DB_PREFIX_."lang WHERE id_lang=$id_lang;");
+    $response = $client->setLanguage($iso_lang);
+    $response = $client->getShippingTracking($_POST['num']);
+    $dom      = simplexml_load_string(str_replace("]]>", "", str_replace("<![CDATA[", "", $response))); 
 
-//url-ify the data for the POST
-foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
-rtrim($fields_string,'&');
+    // -------------------------
+    // Processing response
+    // -------------------------
+    
+    $datos   .= '<h1 id="shipping_tracking_h1">'.$pack->l('Shipment tracking')." ".$_POST['num'].'</h1>';
+    $datos   .= '<img id="shipping_tracking_img" alt="Packlink.es" src="http://www.packlink.es/images/'.strtolower($iso_lang)."_".  strtoupper($iso_lang).'/logo.png">';
+    $datos   .= '<table cellpadding="0" cellspacing="0" border="0" class="display" id="shipping_tracking" >'."\n";
+    foreach ($dom as $key => $value){
+        if($key != "history") $datos .= "<tr><th>".$pack->l(ucwords($key))."</th><td>".$value."</td></tr>"; 
+    }
+    foreach ($dom->history->status as $key => $value){
+        $datos .= '<tr><th>'.$pack->l(ucwords($key)).'</th><td><table cellpadding="0" cellspacing="0" border="0" >'; 
+        foreach($value as $s_key => $s_val){
+            $datos .= "<tr><th>".$pack->l(ucwords($s_key))."</th><td>".$s_val."</td></tr>";
+        }
+        $datos .= "</table></td></tr>";
+    }
+    $datos .= "</table>";
 
-//connection
-$ch = curl_init();
-    curl_setopt($ch,CURLOPT_URL, $url);
-    curl_setopt($ch,CURLOPT_POST, count($fields));
-    curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $datos = curl_exec($ch);
-curl_close($ch);
+    // -------------------------
+    // Sending to Smarty
+    // -------------------------
+    
+    $smarty->assign("datos", $datos);
+    $smarty->display(dirname(__FILE__) . '/tracking.tpl');
 
-$posi1 = stripos($datos,'<div id="contenedorDerecha"');
-$posi2 = stripos($datos,'<div id="cajaLogosPie">');
-$datos = substr($datos, $posi1 , $posi2-$posi1);
-$styles = '
-    <style>
-        #contenedorDerecha .TrackBulNum { padding: 10px 0; }
-        #contenedorDerecha .packLinkTrackTexto { display:none; }
-        #contenedorDerecha .packLinkTrackCaja { display:none; }
-        #contenedorDerecha #formTrackSubmit { display:none; }
-        #contenedorDerecha .tPar b { background-color: #f0f0f0; font-size: 1.1em; line-height: 16px; padding-top: 8px; padding-left: 5px; padding-right: 5px; }
-        #contenedorDerecha .tImpar b { background-color: #ffffff; font-size: 1.1em; line-height: 16px; padding-top: 8px; padding-left: 5px; padding-right: 5px; }
-        #contenedorDerecha .tPar span { padding: 0 5px 0 0; color: #555555; }
-        #contenedorDerecha .tImpar span { padding: 0 5px 0 0; color: #555555; }
-        #contenedorDerecha .tPar div { padding-bottom: 5px; float: right; }
-        #contenedorDerecha .tImpar div { padding-bottom: 5px; float: right; }
-        #contenedorDerecha b { display: block; padding-bottom: 5px; }
-        #contenedorDerecha h2 { padding-top:10px; }
-        #contenedorDerecha .textoBarraAzulFunciona { display:none }
-        #contenedorDerecha .infoPack > br { display: none; }
-    </style>';
-
-//$datos = htmlspecialchars(substr($datos, 0, strlen($datos)-21));
-$datos = $styles. str_replace("</h1>", "</h2>", str_replace("<h1", "<h2", substr($datos, 0, strlen($datos)-21)));
-$smarty->assign("datos", $datos);
-$smarty->assign("dat_sdiv", $dat_ediv);
-$smarty->assign("dat_ediv", $dat_ediv);
-$smarty->display(dirname(__FILE__) . '/tracking.tpl');
-     
-include('../../footer.php');
+    include('../../footer.php');
 ?>
