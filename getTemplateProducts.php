@@ -78,7 +78,7 @@
 
     <select name="selectBox<?= $_REQUEST['ido'] ?>" id="selectBox<?= $_REQUEST['ido'] ?>">
     </select>
-    <input type="button" id="requestShipment<?= $_REQUEST['ido'] ?>" name="requestShipment<?= $_REQUEST['ido'] ?>" value="<?= $pack->l("Request New Budget") ?>" class="submitButton black request" style="102px !important" />
+    <input type="button" id="requestShipment<?= $_REQUEST['ido'] ?>" name="requestShipment<?= $_REQUEST['ido'] ?>" value="<?= $pack->l("Request New Budget") ?>" class="submitButton stylePacklink2 request" style="102px !important" />
 
 
     <span>
@@ -102,7 +102,7 @@
                 <td><?= Db::getInstance()->getValue("SELECT ROUND(price*(1+(tax/100)), 2) FROM "._DB_PREFIX_."packlink_orders WHERE id_order = ".$_REQUEST['ido']) ?> €</td>
             </tr>
         </table>
-        <input type="button" id="acceptShipment<?= $_REQUEST['ido'] ?>" name="acceptShipment<?= $_REQUEST['ido'] ?>" value="<?= $pack->l("Accept User Submission"); ?>" class="submitButton black accept" style="102px !important" />
+        <input type="button" id="acceptShipment<?= $_REQUEST['ido'] ?>" name="acceptShipment<?= $_REQUEST['ido'] ?>" value="<?= $pack->l("Accept User Submission"); ?>" class="submitButton stylePacklink2 accept" style="102px !important" />
     </span>
     
     <!--

@@ -174,6 +174,10 @@ class Adminpacklink extends AdminTab{
                                 $value = $value."|".strip_tags($response);
                             }
                             $orders[$order[$this->l("Nº Order")]][$key] = $value;
+                            if($key == $this->l("Reference")){
+                                $ref = $orders[$order[$this->l("Nº Order")]][$this->l("Reference")];
+                                $orders[$order[$this->l("Nº Order")]][$this->l("Reference")] = '<a href="/modules/packlink/tracking.php?num='.$ref.'" target="_blank">'.$ref.'</a>';
+                            }
                         }
                         $sql_quotes = "SELECT   (SELECT postcode FROM "._DB_PREFIX_."address WHERE id_address = o.`id_address_delivery`) as 'PCD',
                                             (SELECT value FROM "._DB_PREFIX_."packlink_config WHERE `key` = '_POST_CODE_SHOP') AS 'PCO',

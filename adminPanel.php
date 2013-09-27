@@ -193,7 +193,7 @@
                     <span class="step-down"></span>
                     <input type="hidden" val="" id="_BOX_ID" name="_BOX_ID" />
                 </span>
-                <input type="reset" value="Nuevo"  id="submitpacklink" name="submitpacklink" class="submitButton black" onClick="$('#_BOX_ID').val('')">
+                <input type="reset" value="Nuevo"  id="submitpacklink" name="submitpacklink" class="submitButton stylePacklink2" onClick="$('#_BOX_ID').val('')">
                 <?= $messageBoxes ?>
                 <span>
                     <label class="labelSection"><?= $this->l("Model") ?></label>
@@ -289,7 +289,7 @@
             </fieldset>
         </div>
         
-        <input class="submitButton black" type="submit" name="submitpacklink" id="submitpacklink" value="Actualizar" />
+        <input class="submitButton stylePacklink2" type="submit" name="submitpacklink" id="submitpacklink" value="Actualizar" />
         
         <script class="jsbin" src="<?= _MODULE_DIR_ ?>packlink/js/jquery.dataTables.nightly.js"></script>
         <script>
