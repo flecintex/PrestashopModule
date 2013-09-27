@@ -1,6 +1,4 @@
 <?php
-    ini_set("display_errors", "on");
-    error_reporting(E_ERROR^E_PARSE^E_STRICT);
     global $smarty;
     include '../../config/config.inc.php';
     include 'packlink.php';

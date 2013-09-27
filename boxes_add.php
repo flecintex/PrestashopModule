@@ -21,13 +21,6 @@
     // Init the Packlink module.
     $pack = new packlink();
     
-    if($_REQUEST['submitPacklink']){
-        $sql = "INSERT INTO `ps_packlink_boxes` (`id`, `model`, `description`, `width`, `height`, `depth`, `weight`) VALUES ";
-        $sql .= "(NULL, '".$_REQUEST['_MODEL_BOX']."', '".$_REQUEST['_DESCRIPTION_BOX']."', '".$_REQUEST['_WIDTH_BOX']."', '".$_REQUEST['_HEIGHT_BOX']."', '".$_REQUEST['_DEPTH_BOX']."', '".$_REQUEST['_WEIGHT_BOX']."');";
-        if (!Db::getInstance()->execute($sql)) $msg = '<span class="msgError">'.($pack->l("An error occurred. Failed to save the definition of the new box")).'</span>';
-        else { $msg = '<span class="msgOK">'.$pack->l("Operation performed successfully")."</span>"; }
-    }
-
     // Get the necessary parameters for execute module.
     $url_packlink        = Db::getInstance()->getValue("SELECT value FROM "._DB_PREFIX_."packlink_config WHERE `key` = 'url_packlink'");
     $username            = Db::getInstance()->getValue("SELECT value FROM "._DB_PREFIX_."packlink_config WHERE `key` = 'username'");
@@ -95,7 +88,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="4"><input type="button" value="<?= $pack->l("Choose") ?>" id="selectPacklink" name="selectPacklink" class="submitButton black"></td>
+                <td colspan="4"><input type="button" value="<?= $pack->l("Choose") ?>" id="selectPacklink" name="selectPacklink" class="submitButton stylePacklink2"></td>
             </tr>
         </tfoot>
     </table>
@@ -104,8 +97,8 @@
    
     </td>
     <td>
-    <h2><?= $pack->l("Add Box")." ".$msg ?></h2>
-    <form id="frm2" name="frm2" action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
+    <h2><?= $pack->l("Add Box") ?><span class="msgOK" id="msgAdd"></span></h2>
+    <form id="frm2" name="frm2" method="post">
         <table cellpadding="0" style="width:450px; min-width: 320px; max-width: 450px" cellspacing="0" border="0" class="table3" id="table<?= $_REQUEST['id'] ?>" >
             <thead>
                 <tr>
@@ -119,9 +112,7 @@
                 <tr>
                     <th><?= $pack->l("Description") ?></th>
                     <td colspan="3">
-                        <textarea type="text" rows="6" id="_DESCRIPTION_BOX" name="_DESCRIPTION_BOX">
-
-                        </textarea>
+                        <textarea type="text" rows="6" id="_DESCRIPTION_BOX" name="_DESCRIPTION_BOX"></textarea>
                     </td>
                 </tr>
                 <tr>
@@ -139,7 +130,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="4"><input type="submit" value="<?= $pack->l("Save") ?>" id="submitPacklink" name="submitPacklink" class="submitButton black"></td>
+                    <td colspan="4"><input type="button" value="<?= $pack->l("Save") ?>" id="submitPacklink" name="submitPacklink" class="submitButton stylePacklink2"></td>
                 </tr>
             </tfoot>
         </table>
@@ -162,12 +153,14 @@
     
     $('#_SELECT_MODEL_BOX').change(function(){
        var aux = unserialize(arrBoxes);
-       $('#_SELECT_DESCRIPTION_BOX').html(aux[$('#_SELECT_MODEL_BOX').val()]['<?= $pack->l("Description") ?>']);
+
+    $('#_SELECT_DESCRIPTION_BOX').html(aux[$('#_SELECT_MODEL_BOX').val()]['<?= $pack->l("Description") ?>']);
        $('#_SELECT_WIDTH_BOX').html(aux[$('#_SELECT_MODEL_BOX').val()]['<?= $pack->l("Width") ?>']);
        $('#_SELECT_HEIGHT_BOX').html(aux[$('#_SELECT_MODEL_BOX').val()]['<?= $pack->l("Height") ?>']);
        $('#_SELECT_DEPTH_BOX').html(aux[$('#_SELECT_MODEL_BOX').val()]['<?= $pack->l("Depth") ?>']);
        $('#_SELECT_WEIGHT_BOX').html(aux[$('#_SELECT_MODEL_BOX').val()]['<?= $pack->l("Weight") ?>']);
     });
+    
     $('#selectPacklink').click(function(){
         $('#msgSelect').html('...');
         var dest = window.parent.document;
@@ -186,10 +179,49 @@
         window.parent.controlSelect('<?= $_REQUEST['ido'] ?>');
         $('#msgSelect').html('<?= $pack->l("Operation performed successfully") ?>');
     });
-    
-    $('#submitPacklink').click(function(){
-        $('#frm2').submit();
+      
+    $('#submitPacklink').click( function() {
+        var $result = null;
+        
+        $.ajax({
+            url: '<?= _MODULE_DIR_."packlink/saveBox.php" ?>',
+            type: 'post',
+            async:false,
+            data: $('form#frm2').serialize(),
+            success: function(data) {
+                 var code = data.substr(0, data.indexOf("|"));
+                 var msg = data.substr(data.indexOf("|")+1);
+
+                 $('#msgAdd').html(msg);
+                 if(code != 0){
+                    arrBoxes = unserialize(arrBoxes);
+                    var arrAux = new Array();
+                    
+                    $.each( arrBoxes, function( key, value ) {
+                        arrAux[key] = new Array();
+                        $.each( value, function( key2, value2 ) {
+                            arrAux[key][key2] = value2;
+                        });
+                    });
+                    
+                    arrAux[code] = new Array();
+                    arrAux[code]['<?= $pack->l("Model") ?>'] = $('#_MODEL_BOX').val();
+                    arrAux[code]['<?= $pack->l("Description") ?>'] = $('#_DESCRIPTION_BOX').val();
+                    arrAux[code]['<?= $pack->l("Width") ?>'] = $('#_WIDTH_BOX').val();
+                    arrAux[code]['<?= $pack->l("Weight") ?>'] = $('#_WEIGHT_BOX').val();
+                    arrAux[code]['<?= $pack->l("Height") ?>'] = $('#_HEIGHT_BOX').val();
+                    arrAux[code]['<?= $pack->l("Depth") ?>'] = $('#_DEPTH_BOX').val();
+                    
+                    $result = serialize(arrAux);
+                    
+                    var op = '<option value="'+code+'">'+$('#_MODEL_BOX').val()+'</option>';
+                    $('#_SELECT_MODEL_BOX').html($('#_SELECT_MODEL_BOX').html()+op);
+                 }
+            }
+        });
+        arrBoxes = $result;
     });
+    
     $('span[class^="step-"]').click(function() {
         var item      = $('#_SELECT_MODEL_BOX'),
         selected  = item[0].selectedIndex;
