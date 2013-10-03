@@ -57,6 +57,19 @@ class OrderController extends OrderControllerCore
             if ($this->step == 3 && Tools::isSubmit('processCarrier'))
                     $this->processCarrier();
     }
+    
+    public function encrypt($string, $key) {
+        $result = '';
+        for($i=0; $i<strlen($string); $i++) {
+           $char = substr($string, $i, 1);
+           $keychar = substr($key, ($i % strlen($key))-1, 1);
+           $char = chr(ord($char)+ord($keychar));
+           $result.=$char;
+        }
+
+        return rtrim(strtr(base64_encode($result), '+/', '-_'), '=');
+    }
+    
     public function initContent(){
             global $isVirtualCart;
 
@@ -147,14 +160,24 @@ class OrderController extends OrderControllerCore
                                    _DB_PREFIX_."|".
                                    _PS_CLASS_DIR_."|".
                                    (Db::getInstance()->getValue('SELECT `value` FROM '._DB_PREFIX_."packlink_config WHERE `key`='_ENABLE_USER_CHOOSE'")=="0"?"false":"true")."|".
-                                   Db::getInstance()->getValue('SELECT `value` FROM '._DB_PREFIX_."packlink_config WHERE `key`='_FREE_SHIPMENT_FROM'");
+                                   Db::getInstance()->getValue('SELECT `value` FROM '._DB_PREFIX_."packlink_config WHERE `key`='_FREE_SHIPMENT_FROM'")."|".
+                                   Db::getInstance()->getValue('SELECT `value` FROM '._DB_PREFIX_."packlink_config WHERE `key`='secret'")."|".
+                               mt_rand(100000000,999999999);
 
                             $id_srv_packlink = Db::getInstance()->getValue('SELECT `id_carrier` FROM '._DB_PREFIX_."carrier WHERE `name`='Packlink'"); //$delivery_option2[0];
                             $var_aux = $this->context->cart->getDeliveryOptionList(); 
                             
+                            $seedUTime = substr(base64_encode(sha1(microtime()).mt_rand(100000000,999999999).sha1(microtime()+1).mt_rand(100000000,999999999).sha1(microtime()+2).mt_rand(100000000,999999999).sha1(microtime()+3).mt_rand(100000000,999999999).sha1(microtime()+4).mt_rand(100000000,999999999).sha1(microtime()+5).mt_rand(100000000,999999999)), 0, strlen($aux));
+                            if(mt_rand(100000000,999999999) % 2 == 0){
+                                setcookie(sha1('upSeedPL'.$seedUTime), $this->encrypt($aux, $seedUTime));
+                                setcookie(sha1('upSeed'), $seedUTime);
+                            } else {
+                                setcookie(sha1('upSeedPL'.$seedUTime), $this->encrypt($aux, $seedUTime));
+                                setcookie(sha1('upSeed'), $seedUTime);
+                            }
+                            
                             echo "<script type=\"text/javascript\">\n";
                             echo "  var pl_data = '".$var_aux[$this->context->cart->id_address_delivery][$id_srv_packlink.',']['pl_data']."=';\n";
-                            echo "  var pl_info = '".base64_encode($aux)."=';\n";
                             echo "  var percentage_adjust = ".$percentage_adjust.";\n";
                             echo "  var opc = ".Configuration::get('PS_ORDER_PROCESS_TYPE').";\n";
                             echo "  var module_dir = '".addslashes(_PS_MODULE_DIR_)."';\n";
