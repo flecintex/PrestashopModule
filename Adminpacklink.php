@@ -84,26 +84,24 @@ class Adminpacklink extends AdminTab{
         <script class="jsbin" src="<?= _MODULE_DIR_.$this->module ?>/js/jquery.lightbox.js"></script>
         <?php
 
-        // WS Conection Read-Only Queries
+        // Get needed data for web service
         // ------------------------------
         $url_packlink        = Db::getInstance()->getValue("SELECT value FROM "._DB_PREFIX_."packlink_config WHERE `key` = 'url_packlink'");
         $username            = Db::getInstance()->getValue("SELECT value FROM "._DB_PREFIX_."packlink_config WHERE `key` = 'username'");
         $password            = Db::getInstance()->getValue("SELECT value FROM "._DB_PREFIX_."packlink_config WHERE `key` = 'password'");
         $apikey              = Db::getInstance()->getValue("SELECT value FROM "._DB_PREFIX_."packlink_config WHERE `key` = 'apikey'");
+        $secret              = Db::getInstance()->getValue("SELECT value FROM "._DB_PREFIX_."packlink_config WHERE `key` = 'secret'");
 
         // WS Connection Client
-        // --------------------
-        function createParam($element, $name){
-            if(is_array($element)){
-                $soapstruct = new SoapVar($element, SOAP_ENC_OBJECT, $name, "");
-                return new SoapParam($soapstruct, $name);
-            } else {
-                return new SoapParam($element, $name);
-            }
-        }
-        
-        $options = array('trace' => true, 'exceptions' => true, 'cache_wsdl' => WSDL_CACHE_NONE, 'features' => SOAP_SINGLE_ELEMENT_ARRAYS +  SOAP_USE_XSI_ARRAY_TYPE, 'login' => $apikey, 'password' =>$password, 'soap_version'   => SOAP_1_2, "use"      => SOAP_ENCODED, "style"    => SOAP_DOCUMENT);
+        $options = array('trace' => true, 'exceptions' => true, 'cache_wsdl' => WSDL_CACHE_NONE, 'features' => SOAP_SINGLE_ELEMENT_ARRAYS + SOAP_USE_XSI_ARRAY_TYPE, 'login' => $username, 'soap_version' => SOAP_1_2, "use" => SOAP_ENCODED, "style" => SOAP_DOCUMENT);
         $client     = new SoapClient($url_packlink."/wsdl", $options );
+        
+        // Set seed and authentication
+        $ctimeSeed    = microtime();
+        $response = $client->auth($apikey, sha1($password.$secret.$ctimeSeed), $ctimeSeed);
+        $header   = new SoapHeader("APIPacklink","token",$response);
+        $client->__setSoapHeaders($header);
+        
         $iso_lang =  Db::getInstance()->getValue("SELECT iso_code FROM "._DB_PREFIX_."lang WHERE id_lang=$id_lang;");
         $response = $client->setLanguage($iso_lang);
         
@@ -308,6 +306,10 @@ class Adminpacklink extends AdminTab{
             } 
             
             function enableDatePicker(id){
+                var ctimeSeed = new Date().getTime() / 1000;
+                var stimeSeed = parseInt(ctimeSeed, 10);
+                    ctimeSeed = (Math.round((ctimeSeed - stimeSeed) * 1000) / 1000) + ' ' + stimeSeed;
+
                 $.ajax({
                     url:ordSerial[id].split(',')[10].replace("quotes", "laboralDays"),
                     crossDomain:true,
@@ -316,7 +318,7 @@ class Adminpacklink extends AdminTab{
                     contentType: "application/json; charset=utf-8",
                     cache: 'false', 
                     data:{
-                        username: ordSerial[id].split(',')[11], password:ordSerial[id].split(',')[12], 
+                        username: ordSerial[id].split(',')[11], password:sha1(ordSerial[id].split(',')[12]+ordSerial[id].split(',')[19]+ctimeSeed), 
                         apikey:ordSerial[id].split(',')[13], request_format:"json", response_format:"json",
                         charset:"UTF-8", language:"es", query:"get/laboralDays",
                         data:'{"iso_source":"es", "iso_target":"es", "cp_source":"28033", "cp_target":"28029", "current_time":"true", "excludeSaturdays":"true", "excludeSundays":"true", "service_id":"'+$('td:nth-child(6)', $('#order'+id).prev()).html().split("|")[0]+'", "numOfDays":"10", "formatDate":"Y-n-j"}'
@@ -558,6 +560,10 @@ class Adminpacklink extends AdminTab{
                 });
                 //str += e.find(".noDisplayPL").html().split("|")[1];
                 
+                var ctimeSeed = new Date().getTime() / 1000;
+                var stimeSeed = parseInt(ctimeSeed, 10);
+                    ctimeSeed = (Math.round((ctimeSeed - stimeSeed) * 1000) / 1000) + ' ' + stimeSeed;
+                
                 $.ajax({
                     url:ordSerial[id].split(',')[10].replace("quotes", "combination"),
                     crossDomain:true,
@@ -565,7 +571,7 @@ class Adminpacklink extends AdminTab{
                     contentType: "application/json; charset=utf-8",
                     cache: 'false', 
                     data:{
-                        username: ordSerial[id].split(',')[11], password:ordSerial[id].split(',')[12], 
+                        username: ordSerial[id].split(',')[11], password:sha1(ordSerial[id].split(',')[12]+ordSerial[id].split(',')[19]+ctimeSeed), 
                         apikey:ordSerial[id].split(',')[13], request_format:"json", response_format:"json",
                         charset:"UTF-8", language:"es", query:"get/combination",
                         data:'{"packages":"'+str+'","box_width":"'+getAttr("widthBox", id)+'","box_height":"'+getAttr("heightBox", id)+'","box_depth":"'+getAttr("depthBox", id)+'", "draw":"none"}'
@@ -1137,6 +1143,10 @@ class Adminpacklink extends AdminTab{
                         dp += '{"weight":"'+boxWe.toString()+'","width":"'+boxWi.toString()+'","height":"'+boxHe.toString()+'","depth":"'+boxDe.toString()+'"}, ';
                     });
                     dp = dp.substr(0, dp.length-2);
+                    
+                    var ctimeSeed = new Date().getTime() / 1000;
+                    var stimeSeed = parseInt(ctimeSeed, 10);
+                        ctimeSeed = (Math.round((ctimeSeed - stimeSeed) * 1000) / 1000) + ' ' + stimeSeed;
 
                     $.ajax({
                         url:ordSerial[id].split(',')[10],
@@ -1145,7 +1155,7 @@ class Adminpacklink extends AdminTab{
                         contentType: "application/json; charset=utf-8",
                         cache: 'false', 
                         data:{
-                        username: ordSerial[id].split(',')[11], password:ordSerial[id].split(',')[12], 
+                        username: ordSerial[id].split(',')[11], password:sha1(ordSerial[id].split(',')[12]+ordSerial[id].split(',')[19]+ctimeSeed), 
                         apikey:ordSerial[id].split(',')[13], request_format:"json", response_format:"json",
                         charset:"UTF-8", language:"es", query:"get/quotes",
                         data:'{"quotes":{"service_id":"'+$('td:nth-child(6)', $('#order'+id).prev()).html().split("|")[0]+'", "cp_source":"'+ordSerial[id].split(',')[1].toString()+'","iso_source":"'+ordSerial[id].split(',')[7].toLowerCase()+'","cp_target":"'+ordSerial[id].split(',')[0].toString()+'","iso_target":"'+ordSerial[id].split(',')[6].toLowerCase()+'","packlist":['+dp+']}}' 
