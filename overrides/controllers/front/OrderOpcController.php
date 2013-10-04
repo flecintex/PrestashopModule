@@ -107,7 +107,7 @@ class OrderOpcController extends OrderOpcControllerCore
                                (Db::getInstance()->getValue('SELECT `value` FROM '._DB_PREFIX_."packlink_config WHERE `key`='_ENABLE_USER_CHOOSE'")=="0"?"false":"true")."|".//17
                                Db::getInstance()->getValue('SELECT `value` FROM '._DB_PREFIX_."packlink_config WHERE `key`='_FREE_SHIPMENT_FROM'")."|".
                                Db::getInstance()->getValue('SELECT `value` FROM '._DB_PREFIX_."packlink_config WHERE `key`='secret'")."|".
-                               mt_rand(100000000,999999999);
+                               rand(100000000,999999999);
 
                         $delivery_option = unserialize(trim(Db::getInstance()->getValue('SELECT `delivery_option` FROM '._DB_PREFIX_.'cart a WHERE a.`id_cart` = '.$this->context->cart->id)));
                         $delivery_option = trim(implode("", $delivery_option));
@@ -117,13 +117,18 @@ class OrderOpcController extends OrderOpcControllerCore
                         $price_delivery_packlink = $delivery_option2[2];
                         $tax_delivery_packlink = number_format($delivery_option2[2]*$delivery_option2[3], 2);
                         
-                        $seedUTime = substr(base64_encode(sha1(microtime()).mt_rand(100000000,999999999).sha1(microtime()+1).mt_rand(100000000,999999999).sha1(microtime()+2).mt_rand(100000000,999999999).sha1(microtime()+3).mt_rand(100000000,999999999).sha1(microtime()+4).mt_rand(100000000,999999999).sha1(microtime()+5).mt_rand(100000000,999999999)), 0, strlen($aux));
-                        if(mt_rand(100000000,999999999) % 2 == 0){
-                            setcookie(sha1('upSeedPL'.$seedUTime), $this->encrypt($aux, $seedUTime));
-                            setcookie(sha1('upSeed'), $seedUTime);
+                        $arr_rand_alf = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                        $arr_rand_num = '0123456789';
+                        for($x = 0; $x < strlen($aux)/2 ; $x++){ $seedUTime .= $arr_rand_alf[rand(0, 51)]; }
+                        for($x = 0; $x < strlen($aux)/2 ; $x++) { $seedUTime .= $arr_rand_num[rand(0, 7)];}
+                        $seedUTime = $this->encrypt($seedUTime, (microtime().rand(100000000,999999999)));
+
+                        if(rand(100000000,999999999) % 2 == 0){
+                            setcookie(md5('upSeedPL'.$seedUTime), $this->encrypt($aux, $seedUTime));
+                            setcookie(md5('upSeed'), $seedUTime);
                         } else {
-                            setcookie(sha1('upSeedPL'.$seedUTime), $this->encrypt($aux, $seedUTime));
-                            setcookie(sha1('upSeed'), $seedUTime);
+                            setcookie(md5('upSeed'), $seedUTime);
+                            setcookie(md5('upSeedPL'.$seedUTime), $this->encrypt($aux, $seedUTime));
                         }
                         
                         $var_aux = $this->context->cart->getDeliveryOptionList(); 

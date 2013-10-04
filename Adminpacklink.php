@@ -63,6 +63,7 @@ class Adminpacklink extends AdminTab{
         parent::postProcess();
     }
 
+    private function createParam($element, $name){ if(is_array($element)){ $soapstruct = new SoapVar($element, SOAP_ENC_OBJECT, $name, ""); return new SoapParam($soapstruct, $name); } else { return new SoapParam($element, $name); }}
     public function display(){
         global $cookie;
         $id_lang = $cookie->id_lang;
@@ -139,14 +140,14 @@ class Adminpacklink extends AdminTab{
                     if($order[$this->l("Shipper")] == '') $order[$this->l("Shipper")] = "PACKLINK";
                     foreach($order as $key => $value){
                         if($key == $this->l("Status")){
-                            if($order['Reference'] != "") {
-                                $p_filter = array("packlink_ref"=>$order['Reference'], "return"=>"status"); 
-                                $param    = createParam($p_filter, "shipments");
+                            if($order[$this->l("Reference")] != "") {
+                                $p_filter = array("packlink_ref"=>$order[$this->l("Reference")], "return"=>"status"); 
+                                $param    = $this->createParam($p_filter, "shipments");
                                 $response = $client->getShipments($param);
                                 $response =  simplexml_load_string(str_replace("]]>", "", str_replace("<![CDATA[", "", $response))); 
 
                                 if($response->order->status_id != "" && $response->order->status_id != NULL) {
-                                    Db::getInstance()->execute("UPDATE "._DB_PREFIX_."packlink_orders SET status = '".$response->order->status_id."' WHERE `reference` = '".$order['Reference']."'");
+                                    Db::getInstance()->execute("UPDATE "._DB_PREFIX_."packlink_orders SET status = '".$response->order->status_id."' WHERE `reference` = '".$order[$this->l("Reference")]."'");
                                 
                                     if($response->order->status_id == 0) $iconStatus = _MODULE_DIR_.'packlink/images/statuses/accepted.png';
                                     elseif($response->order->status_id == 1) $iconStatus = _MODULE_DIR_.'packlink/images/statuses/collage.png';
@@ -174,7 +175,11 @@ class Adminpacklink extends AdminTab{
                             $orders[$order[$this->l("Nº Order")]][$key] = $value;
                             if($key == $this->l("Reference")){
                                 $ref = $orders[$order[$this->l("Nº Order")]][$this->l("Reference")];
-                                $orders[$order[$this->l("Nº Order")]][$this->l("Reference")] = '<a href="/modules/packlink/tracking.php?num='.$ref.'" target="_blank">'.$ref.'</a>';
+                                if($ref != ""){
+                                    $orders[$order[$this->l("Nº Order")]][$this->l("Reference")] = '<a href="/modules/packlink/tracking.php?num='.$ref.'" target="_blank">'.$ref.'</a>';
+                                } else {
+                                    $orders[$order[$this->l("Nº Order")]][$this->l("Reference")] = "";
+                                }
                             }
                         }
                         $sql_quotes = "SELECT   (SELECT postcode FROM "._DB_PREFIX_."address WHERE id_address = o.`id_address_delivery`) as 'PCD',
@@ -190,7 +195,8 @@ class Adminpacklink extends AdminTab{
                                             CONCAT((SELECT value FROM "._DB_PREFIX_."packlink_config WHERE `key` = 'url_packlink'), '/get.php?method=quotes') AS 'URI',
                                             (SELECT value FROM "._DB_PREFIX_."packlink_config WHERE `key` = 'username') AS 'user',
                                             (SELECT value FROM "._DB_PREFIX_."packlink_config WHERE `key` = 'password') AS 'pwd',
-                                            (SELECT value FROM "._DB_PREFIX_."packlink_config WHERE `key` = 'apikey') AS 'key'
+                                            (SELECT value FROM "._DB_PREFIX_."packlink_config WHERE `key` = 'apikey') AS 'key',
+                                            (SELECT value FROM "._DB_PREFIX_."packlink_config WHERE `key` = 'secret') AS 'secret'
                                     FROM "._DB_PREFIX_."address a, "._DB_PREFIX_."orders o
                                     WHERE id_address = o.`id_address_delivery` and id_order = ".$order[$this->l("Nº Order")];
                         if ($results = Db::getInstance()->ExecuteS($sql_quotes)){ 
@@ -318,12 +324,19 @@ class Adminpacklink extends AdminTab{
                     contentType: "application/json; charset=utf-8",
                     cache: 'false', 
                     data:{
-                        username: ordSerial[id].split(',')[11], password:sha1(ordSerial[id].split(',')[12]+ordSerial[id].split(',')[19]+ctimeSeed), 
-                        apikey:ordSerial[id].split(',')[13], request_format:"json", response_format:"json",
-                        charset:"UTF-8", language:"es", query:"get/laboralDays",
-                        data:'{"iso_source":"es", "iso_target":"es", "cp_source":"28033", "cp_target":"28029", "current_time":"true", "excludeSaturdays":"true", "excludeSundays":"true", "service_id":"'+$('td:nth-child(6)', $('#order'+id).prev()).html().split("|")[0]+'", "numOfDays":"10", "formatDate":"Y-n-j"}'
+                        username: ordSerial[id].split(',')[11], 
+                        password:sha1(ordSerial[id].split(',')[12]+ordSerial[id].split(',')[14]+ctimeSeed), 
+                        seed:ctimeSeed,
+                        apikey:ordSerial[id].split(',')[13],
+                        request_format:"json",
+                        response_format:"json",
+                        charset:"UTF-8",
+                        language:"es",
+                        query:"get/laboralDays",
+                        data:'{"iso_source":"'+ordSerial[id].split(',')[7].toLowerCase()+'", "iso_target":"'+ordSerial[id].split(',')[6].toLowerCase()+'", "cp_source":"'+ordSerial[id].split(',')[1]+'", "cp_target":"'+ordSerial[id].split(',')[0]+'", "current_time":"true", "excludeSaturdays":"true", "excludeSundays":"true", "service_id":"'+$('td:nth-child(6)', $('#order'+id).prev()).html().split("|")[0]+'", "numOfDays":"10", "formatDate":"Y-n-j"}'
                     },
                     success:function (data){
+                        alert(data);
                         datePickerResponse = data;
                         var obj = $.parseJSON(datePickerResponse);
                         var dt_allow = obj['laboral_days'].split(";");
@@ -571,9 +584,15 @@ class Adminpacklink extends AdminTab{
                     contentType: "application/json; charset=utf-8",
                     cache: 'false', 
                     data:{
-                        username: ordSerial[id].split(',')[11], password:sha1(ordSerial[id].split(',')[12]+ordSerial[id].split(',')[19]+ctimeSeed), 
-                        apikey:ordSerial[id].split(',')[13], request_format:"json", response_format:"json",
-                        charset:"UTF-8", language:"es", query:"get/combination",
+                        username: ordSerial[id].split(',')[11],
+                        password:sha1(ordSerial[id].split(',')[12]+ordSerial[id].split(',')[14]+ctimeSeed), 
+                        seed:ctimeSeed,
+                        apikey:ordSerial[id].split(',')[13],
+                        request_format:"json",
+                        response_format:"json",
+                        charset:"UTF-8",
+                        language:"es",
+                        query:"get/combination",
                         data:'{"packages":"'+str+'","box_width":"'+getAttr("widthBox", id)+'","box_height":"'+getAttr("heightBox", id)+'","box_depth":"'+getAttr("depthBox", id)+'", "draw":"none"}'
                     },
                     success:function (data){
@@ -1155,10 +1174,16 @@ class Adminpacklink extends AdminTab{
                         contentType: "application/json; charset=utf-8",
                         cache: 'false', 
                         data:{
-                        username: ordSerial[id].split(',')[11], password:sha1(ordSerial[id].split(',')[12]+ordSerial[id].split(',')[19]+ctimeSeed), 
-                        apikey:ordSerial[id].split(',')[13], request_format:"json", response_format:"json",
-                        charset:"UTF-8", language:"es", query:"get/quotes",
-                        data:'{"quotes":{"service_id":"'+$('td:nth-child(6)', $('#order'+id).prev()).html().split("|")[0]+'", "cp_source":"'+ordSerial[id].split(',')[1].toString()+'","iso_source":"'+ordSerial[id].split(',')[7].toLowerCase()+'","cp_target":"'+ordSerial[id].split(',')[0].toString()+'","iso_target":"'+ordSerial[id].split(',')[6].toLowerCase()+'","packlist":['+dp+']}}' 
+                            username: ordSerial[id].split(',')[11], 
+                            password:sha1(ordSerial[id].split(',')[12]+ordSerial[id].split(',')[14]+ctimeSeed),
+                            seed:ctimeSeed,
+                            apikey:ordSerial[id].split(',')[13],
+                            request_format:"json",
+                            response_format:"json",
+                            charset:"UTF-8",
+                            language:"es",
+                            query:"get/quotes",
+                            data:'{"quotes":{"service_id":"'+$('td:nth-child(6)', $('#order'+id).prev()).html().split("|")[0]+'", "cp_source":"'+ordSerial[id].split(',')[1].toString()+'","iso_source":"'+ordSerial[id].split(',')[7].toLowerCase()+'","cp_target":"'+ordSerial[id].split(',')[0].toString()+'","iso_target":"'+ordSerial[id].split(',')[6].toLowerCase()+'","packlist":['+dp+']}}' 
                         },
                         success:callbackPrice,
                         fail: function(e, t){

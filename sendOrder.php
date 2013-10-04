@@ -144,17 +144,19 @@
                     Db::getInstance()->getValue("UPDATE "._DB_PREFIX_."orders SET shipping_number = '".$response."' WHERE id_order = ".$_REQUEST['id']);
                     Db::getInstance()->getValue("UPDATE "._DB_PREFIX_."order_carrier SET tracking_number = '".$response."' WHERE id_order = ".$_REQUEST['id']);
                     
+                    //echo json_encode($order);
+                    echo $pack->l("Operation Completed Successfully");
+                    
                 } catch (SoapFault $exp) {
-                    echo "Message: ".$exp->faultstring."<br />";
-                    echo "Error Code: ".$exp->faultcode."<br />";
-                    echo "Line: ".$exp->getLine()."<br />";
-                    echo "Detail:<pre>".$exp->xdebug_message."</pre>";
-                    //echo "Trc: ".print_r($exp->getTrace())."<br />";
-                    echo "Trace:<pre>".$exp->getTraceAsString()."</pre>";
+                    echo $pack->l('Error Number:').$exp->faultcode."\n\n";
+                    echo $pack->l('An error occurred.')."\n----------------------------\n";
+                    echo $exp->faultstring."\n\n";
+                    //echo "\n".$pack->l('Description')."\n----------------\n";
+                    //echo ($exp->xdebug_message!=""?$exp->xdebug_message:"")."\n\n";
+
+                    //echo "\nTrace:".$exp->getTraceAsString();
 
                 }
-                
-                echo $pack->l("Operation Completed Successfully");
             }
         }
     }
