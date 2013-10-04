@@ -1,6 +1,20 @@
-PackLink Prestashop Module 1.0b
+PackLink Prestashop Module 0.7b
 ===============================
 
+Changes
+=======
+<h4>04-10-2013</h4>
+<ul>
+    <li>Solved some security problems and error messages.</li>
+</ul>
+
+<h4>25-09-2013</h4>
+<ul>
+    <li>Added new Shipment Tracking functionality.</li>
+</ul>
+
+Description
+===========
 This Module has been created to manage Packlink's shipments. In a begining,  only has been tested from Prestashop 1.5.4 or superior but, in the future, is posible that to be available to all versions.
 
 Features
